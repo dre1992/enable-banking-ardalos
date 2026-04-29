@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets — RSA private key from Enable Banking
+*.pem
+
+# Local session state — contains active bank consent
+session.json
+
+# Bank data outputs
+transactions.json
+transactions_*.json
+
+# Local development helpers
+_launcher.py
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
