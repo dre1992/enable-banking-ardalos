@@ -12,4 +12,4 @@ provider with [Enable Banking](https://enablebanking.com).
 - [Privacy Policy](./privacy/)
 - [Terms of Service](./terms/)
 
-**Data protection contact:** aseficha@gmail.com
+**Data protection contact:** aseficha+banking@gmail.com
