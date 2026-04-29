@@ -13,15 +13,12 @@ import json
 import uuid
 import webbrowser
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-
-from eb_common import BASE_URL, make_session, check
+from eb_common import BASE_URL, SESSION_FILE, make_session, check
 
 REDIRECT_URI = "https://dre1992.github.io/enable-banking-ardalos/callback/"
 COUNTRY = "GR"
 ASPSP_NAME = "Eurobank"
 SESSION_DAYS = 180
-SESSION_FILE = Path(__file__).parent / "session.json"
 
 
 def main() -> None:
@@ -36,7 +33,7 @@ def main() -> None:
         "aspsp": {"name": ASPSP_NAME, "country": COUNTRY},
         "state": str(uuid.uuid4()),
         "redirect_url": REDIRECT_URI,
-        "psu_type": "personal",
+        "psu_type": "business",
     }
     auth = check(s.post(f"{BASE_URL}/auth", json=body))
     print(f"\nOpening browser:\n  {auth['url']}")
@@ -61,6 +58,7 @@ def main() -> None:
         for a in sess.get("accounts", [])
     ]
 
+    SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
     SESSION_FILE.write_text(json.dumps({
         "session_id": sess["session_id"],
         "aspsp": ASPSP_NAME,
@@ -71,7 +69,7 @@ def main() -> None:
     }, indent=2))
     SESSION_FILE.chmod(0o600)
 
-    print(f"\n✓ {len(accounts)} accounts linked. Session saved to {SESSION_FILE.name} (mode 600).")
+    print(f"\n✓ {len(accounts)} accounts linked. Session saved to {SESSION_FILE} (mode 600).")
     print(f"  Valid until {valid_until[:10]}.  Run reconcile.py from now on.")
 
 

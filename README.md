@@ -9,6 +9,37 @@ restricted-access Enable Banking app, served via GitHub Pages.
 - `privacy.md` — privacy policy (served at `/privacy/`)
 - `terms.md` — terms of service (served at `/terms/`)
 - `_config.yml` — Jekyll config (uses the built-in `minimal` theme)
+- `auth.py` — one-time Enable Banking authorization flow
+- `reconcile.py` — fetches transactions from linked accounts
+- `eb_common.py` — shared JWT/API helpers
+
+## Local secret storage
+
+Keep secrets outside the repo:
+
+```bash
+install -d -m 700 ~/.config/enable-banking-ardalos ~/.local/state/enable-banking-ardalos
+cp /path/to/private-key.pem ~/.config/enable-banking-ardalos/private_key.pem
+chmod 600 ~/.config/enable-banking-ardalos/private_key.pem
+cp /path/to/session.json ~/.local/state/enable-banking-ardalos/session.json
+chmod 600 ~/.local/state/enable-banking-ardalos/session.json
+```
+
+Defaults used by the scripts:
+
+- private key: `~/.config/enable-banking-ardalos/private_key.pem`
+- session file: `~/.local/state/enable-banking-ardalos/session.json`
+
+Optional overrides:
+
+```bash
+export ENABLE_BANKING_APPLICATION_ID="..."
+export ENABLE_BANKING_PRIVATE_KEY_PATH="/secure/path/private_key.pem"
+export ENABLE_BANKING_SESSION_FILE="/secure/path/session.json"
+export ENABLE_BANKING_BASE_URL="https://api.tilisy.com"
+```
+
+Do not keep PEM/session files in the repo, Downloads, Desktop, Google Drive, or iCloud.
 
 ## Setup (5 minutes)
 

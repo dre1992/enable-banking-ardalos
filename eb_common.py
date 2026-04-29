@@ -1,17 +1,30 @@
 """Shared Enable Banking API helpers — JWT auth, request session, error decoding."""
+import os
 import time
+from pathlib import Path
 
 import jwt
 import requests
 
-APPLICATION_ID = "db6b245a-5f09-4607-aa42-91d804991935"
-PRIVATE_KEY_PATH = "/Users/andreasseficha/Downloads/db6b245a-5f09-4607-aa42-91d804991935.pem"
-BASE_URL = "https://api.tilisy.com"
+APPLICATION_ID = os.environ.get("ENABLE_BANKING_APPLICATION_ID", "db6b245a-5f09-4607-aa42-91d804991935")
+PRIVATE_KEY_PATH = Path(os.environ.get(
+    "ENABLE_BANKING_PRIVATE_KEY_PATH",
+    "~/.config/enable-banking-ardalos/private_key.pem",
+)).expanduser()
+BASE_URL = os.environ.get("ENABLE_BANKING_BASE_URL", "https://api.tilisy.com")
+SESSION_FILE = Path(os.environ.get(
+    "ENABLE_BANKING_SESSION_FILE",
+    "~/.local/state/enable-banking-ardalos/session.json",
+)).expanduser()
 
 
 def make_jwt(ttl_seconds: int = 3600) -> str:
-    with open(PRIVATE_KEY_PATH) as f:
-        private_key = f.read()
+    if not PRIVATE_KEY_PATH.exists():
+        raise FileNotFoundError(
+            f"Enable Banking private key not found: {PRIVATE_KEY_PATH}. "
+            "Set ENABLE_BANKING_PRIVATE_KEY_PATH or copy it to the default secure path."
+        )
+    private_key = PRIVATE_KEY_PATH.read_text()
     now = int(time.time())
     payload = {
         "iss": "enablebanking.com",

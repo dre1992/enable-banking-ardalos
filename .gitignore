@@ -5,9 +5,12 @@ __pycache__/
 
 # Secrets — RSA private key from Enable Banking
 *.pem
+*.key
+.env
 
 # Local session state — contains active bank consent
 session.json
+*.session.json
 
 # Bank data outputs
 transactions.json
