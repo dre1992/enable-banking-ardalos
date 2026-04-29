@@ -23,7 +23,7 @@ The Operator is the sole data controller for any personal data processed by
 the Application. For the purposes of GDPR data-subject requests, the Operator
 is also the sole data subject.
 
-**Contact:** aseficha+banking@gmail.com
+**Contact:** andreas.seficha@ardalostech.com
 
 ## 3. Data Processed
 
@@ -86,4 +86,4 @@ URL where this document is published.
 ## 11. Contact
 
 Questions or requests relating to this policy may be directed to:
-**aseficha+banking@gmail.com**
+**andreas.seficha@ardalostech.com**
