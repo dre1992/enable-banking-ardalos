@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Auth code — ardalos_monthly_reconcile</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 640px; margin: 4em auto; padding: 0 1em; color: #222; }
+    h1 { font-size: 1.4em; }
+    .code-box { background: #f4f4f4; border: 1px solid #ddd; border-radius: 6px; padding: 1em; font-family: ui-monospace, Menlo, monospace; font-size: 1.1em; word-break: break-all; user-select: all; }
+    button { margin-top: 1em; padding: 0.6em 1.2em; font-size: 1em; cursor: pointer; border-radius: 6px; border: 1px solid #888; background: #fff; }
+    button:hover { background: #f0f0f0; }
+    .err { color: #b00; }
+    .hint { color: #666; font-size: 0.9em; margin-top: 2em; }
+  </style>
+</head>
+<body>
+  <h1>Authorization code</h1>
+  <div id="output">
+    <div class="code-box" id="code">(reading URL…)</div>
+    <button id="copyBtn" type="button">Copy code</button>
+  </div>
+  <p class="hint">Paste this into your local terminal. The code is single-use and expires within ~60 seconds.</p>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+      var error = params.get('error');
+      var box = document.getElementById('code');
+      var btn = document.getElementById('copyBtn');
+
+      if (error) {
+        box.textContent = 'Error: ' + error + (params.get('error_description') ? ' — ' + params.get('error_description') : '');
+        box.className = 'code-box err';
+        btn.style.display = 'none';
+      } else if (code) {
+        box.textContent = code;
+      } else {
+        box.textContent = '(no code in URL)';
+        btn.style.display = 'none';
+      }
+
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(box.textContent).then(function () {
+          btn.textContent = 'Copied ✓';
+          setTimeout(function () { btn.textContent = 'Copy code'; }, 1500);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
